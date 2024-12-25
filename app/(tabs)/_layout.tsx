@@ -44,9 +44,8 @@ export default function TabLayout() {
           title: '',
           tabBarIcon: () => 
           <View style={{position: 'absolute'}}>
-             <Ionicons name="add-circle" size={70} color="rgb(241, 63, 63);" />
+             <Ionicons name="add-circle" size={65} color="rgb(241, 63, 63);" />
           </View>
-         
         }}
       />
       <Tabs.Screen
