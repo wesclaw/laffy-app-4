@@ -8,7 +8,7 @@ import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 // icons
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
-
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 // 
 
 export default function TabLayout() {
@@ -27,15 +27,16 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: () => <Ionicons name="home-outline" size={24} color="black" />
+          // tabBarIcon: () => <Ionicons name="home-outline" size={24} color="black" />
+
+          tabBarIcon: ({focused}) => <Ionicons name={!focused ? 'home-outline' : 'home-sharp'} size={24} color="black" />
         }}
       />
       <Tabs.Screen
         name="friends"
         options={{
           title: 'Friends',
-          tabBarIcon: () => <Ionicons name="people-outline" size={24} color="black" />
-
+          tabBarIcon: ({focused}) => <Ionicons name={!focused ? "people-outline" : 'people-sharp'} size={24} color="black" />
         }}
       />
       <Tabs.Screen
@@ -52,14 +53,14 @@ export default function TabLayout() {
         name="inbox"
         options={{
           title: 'Inbox',
-          tabBarIcon: () => <AntDesign name="inbox" size={24} color="black" />
+          tabBarIcon: ({focused}) => <MaterialCommunityIcons name={!focused ? "message-reply-text-outline" : "message-reply-text"} size={24} color="black" />
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: () => <AntDesign name="user" size={24} color="black" />
+          tabBarIcon: ({focused}) => <Ionicons name={!focused ? "person-outline" : 'person'} size={24} color="black" />
         }}
       />
       

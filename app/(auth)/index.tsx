@@ -5,8 +5,8 @@ import { Link } from 'expo-router'
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login page</Text>
-      <Link style={styles.link} href="/(tabs)">skip button</Link>
+      
+      <Link style={styles.link} href="/(tabs)">Sign Up</Link>
     </View>
   );
 }
@@ -18,11 +18,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
   },
-  title:{
-    color: 'black',
-    fontSize: 30,
-  },
   link:{
-    color: 'blue'
+    color: 'white',
+    fontSize: 30,
+    backgroundColor: 'black',
+    padding: 10,
+    borderRadius: 5,
   },
 });
