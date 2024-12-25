@@ -1,19 +1,15 @@
 import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
 import { Pressable, View, Text } from 'react-native';
-
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 
+// icons
+import Ionicons from '@expo/vector-icons/Ionicons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+// 
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -23,40 +19,48 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: 'black',
         headerShown: false,
+        tabBarStyle:{
+          height: 55,
+        }
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'home',
-          tabBarIcon: () => <Text>Home</Text>,
+          title: 'Home',
+          tabBarIcon: () => <Ionicons name="home-outline" size={24} color="black" />
         }}
       />
       <Tabs.Screen
         name="friends"
         options={{
           title: 'Friends',
-          tabBarIcon: () => <Text>Friends</Text>,
+          tabBarIcon: () => <Ionicons name="people-outline" size={24} color="black" />
+
         }}
       />
       <Tabs.Screen
         name="camera"
         options={{
-          title: 'Camera',
-          tabBarIcon: () => <Text>Camera</Text>,
+          title: '',
+          tabBarIcon: () => 
+          <View style={{position: 'absolute'}}>
+             <Ionicons name="add-circle" size={70} color="rgb(241, 63, 63);" />
+          </View>
+         
         }}
       />
       <Tabs.Screen
         name="inbox"
         options={{
           title: 'Inbox',
-          tabBarIcon: () => <Text>Inbox</Text>,
+          tabBarIcon: () => <AntDesign name="inbox" size={24} color="black" />
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: () => <Text>Profile</Text>,
+          tabBarIcon: () => <AntDesign name="user" size={24} color="black" />
         }}
       />
       
