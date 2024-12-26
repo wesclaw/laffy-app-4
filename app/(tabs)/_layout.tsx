@@ -44,7 +44,7 @@ export default function TabLayout() {
         options={{
           title: '',
           tabBarIcon: () => 
-          <View style={{position: 'absolute'}}>
+          <View style={{position: 'absolute', width: 60}}>
              <Ionicons name="add-circle" size={65} color="rgb(241, 63, 63);" />
           </View>
         }}
