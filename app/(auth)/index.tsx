@@ -5,7 +5,6 @@ import { Link } from 'expo-router'
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      
       <Link style={styles.link} href="/(tabs)">Sign Up</Link>
     </View>
   );
