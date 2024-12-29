@@ -1,24 +1,41 @@
-import { StyleSheet, TextInput, Platform } from 'react-native';
+import {
+  StyleSheet,
+  TextInput,
+  Platform,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { Link } from 'expo-router'
 import React from 'react'
 import { useFonts } from 'expo-font'
+import { useRouter } from 'expo-router';
+import { supabase } from '@/utils/supabase'
 
 export default function HomeScreen() {
+
+  const router = useRouter();
 
   const [loaded] = useFonts({
     logo: require('../../assets/fonts/logo-font.ttf'),
   })
 
-  if(!loaded) {
-    return null
-  }
-
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
+  const [username, setUsername] = React.useState('')
 
-  const handleLogin = () =>{
+  const handleSignup = async () =>{
     console.log(email, password)
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      // username: username,
+    })
+    if(error) return console.log(error)
+
+    router.back()  
   }
 
   return (
@@ -28,6 +45,14 @@ export default function HomeScreen() {
       <Text style={styles.underLogo}>Make Every Second Count</Text>
       <Text style={styles.title}>Sign up</Text>
 
+
+      <TextInput 
+      placeholder='Username'
+      placeholderTextColor={Platform.OS === 'ios' ? '#888' : '#aaa'}
+      style={styles.input}
+      value={username}
+      onChangeText={setUsername}
+      />
       <TextInput 
       placeholder='Email'
       placeholderTextColor={Platform.OS === 'ios' ? '#888' : '#aaa'}
@@ -43,8 +68,14 @@ export default function HomeScreen() {
       value={password}
       onChangeText={setPassword}
       />
-      <Link style={styles.link} href="/(tabs)">Sign Up</Link>
 
+      <TouchableOpacity 
+          style={styles.touchOp}
+          onPress={()=>router.push('/(tabs)')}>
+      
+          <Text style={styles.link}>Sign Up</Text>
+      
+          </TouchableOpacity>
     </View>
   );
 }
@@ -63,7 +94,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(241, 63, 63)',
     padding: 10,
     borderRadius: 5,
-    width: '95%', 
+    width: '100%', 
     textAlign: 'center',
     marginVertical: 5, 
   },
@@ -98,4 +129,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     color: 'black'
   },
+  touchOp:{
+    width: '95%'
+  }
 });

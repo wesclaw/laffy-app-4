@@ -1,8 +1,16 @@
-import { StyleSheet, TextInput, Platform, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  TextInput,
+  Platform,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import { Text, View } from '@/components/Themed';
-import { Link, useRouter } from 'expo-router'
-import React from 'react'
-import { useFonts } from 'expo-font'
+import { useRouter } from 'expo-router';
+import React from 'react';
+import { useFonts } from 'expo-font';
 
 export default function HomeScreen() {
 
@@ -11,10 +19,6 @@ export default function HomeScreen() {
   const [loaded] = useFonts({
     logo: require('../../assets/fonts/logo-font.ttf'),
   })
-
-  if(!loaded) {
-    return null
-  }
 
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
