@@ -23,7 +23,10 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.logoName}>Sign up</Text>
+      <Text style={styles.logoName}>Laffy</Text>
+      
+      <Text style={styles.underLogo}>Make Every Second Count</Text>
+      <Text style={styles.title}>Sign up</Text>
 
       <TextInput 
       placeholder='Email'
@@ -40,47 +43,59 @@ export default function HomeScreen() {
       value={password}
       onChangeText={setPassword}
       />
-
       <Link style={styles.link} href="/(tabs)">Sign Up</Link>
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: 'ghostwhite',
     backgroundColor: 'rgb(226, 238, 255)',
   },
   link:{
     color: 'white',
-    fontSize: 30,
+    fontSize: 22,
     backgroundColor: 'rgb(241, 63, 63)',
     padding: 10,
-    borderRadius: 50,
-    width: '90%', 
+    borderRadius: 5,
+    width: '95%', 
     textAlign: 'center',
-    marginVertical: 10, 
-    
+    marginVertical: 5, 
   },
   input:{
     color: 'black',
-    fontSize: 20, 
+    fontSize: 22, 
     borderWidth: 1, 
     borderColor: '#cccccc', 
     backgroundColor: '#f9f9f9',
     padding: 10,
-    paddingLeft: 30,
-    borderRadius: 50,
-    marginVertical: 10, 
-    width: '90%', 
+    paddingLeft: 20,
+    borderRadius: 5,
+    marginVertical: 5, 
+    width: '95%', 
     alignSelf: 'center', 
   },
   logoName:{
     fontSize: 75,
-    color: 'black',
-    fontFamily: 'logo'
+    color: 'rgb(241, 63, 63)',
+    fontFamily: 'logo',
+    textDecorationLine: 'underline',
+    width: '100%',
+    textAlign: 'center',
+  },
+  title:{
+    fontSize: 25,
+    fontWeight: 600,
+    color: 'black'
+  },
+  underLogo:{
+    fontSize: 20,
+    marginBottom: 40,
+    color: 'black'
   },
 });
