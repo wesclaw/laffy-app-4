@@ -48,8 +48,6 @@ export default function HomeScreen() {
       onChangeText={setPassword}
       />
 
-      
-
     <TouchableOpacity 
     style={styles.touchOp}
     onPress={handleLogin}>
