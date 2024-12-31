@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center', 
   },
   logoName:{
-    fontSize: 75,
+    fontSize: 70,
     color: 'rgb(241, 63, 63)',
     fontFamily: 'logo',
     textDecorationLine: 'underline',
