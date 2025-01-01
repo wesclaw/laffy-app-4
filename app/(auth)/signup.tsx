@@ -13,30 +13,24 @@ import React from 'react'
 import { useFonts } from 'expo-font'
 import { useRouter } from 'expo-router';
 import { supabase } from '@/utils/supabase'
+import { useAuth } from '@/providers/AuthProvider'
 
-export default function HomeScreen() {
+export default function() {
+
+  // const [loaded] = useFonts({
+  //   logo: require('../../assets/fonts/logo-font.ttf'),
+  // })
+
+  // if (!loaded) {
+  //   return null; // Or return a loading indicator
+  // }
 
   const router = useRouter();
-
-  const [loaded] = useFonts({
-    logo: require('../../assets/fonts/logo-font.ttf'),
-  })
 
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [username, setUsername] = React.useState('')
-
-  const handleSignup = async () =>{
-    console.log(email, password)
-    const { data, error } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-      // username: username,
-    })
-    if(error) return console.log(error)
-
-    router.back()  
-  }
+  const { signUp } = useAuth()
 
   return (
     <View style={styles.container}>
@@ -71,7 +65,7 @@ export default function HomeScreen() {
 
       <TouchableOpacity 
           style={styles.touchOp}
-          onPress={()=>router.push('/(tabs)')}>
+          onPress={()=>signUp(username, email, password)}>
       
           <Text style={styles.link}>Sign Up</Text>
       
@@ -112,7 +106,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center', 
   },
   logoName:{
-    fontSize: 70,
+    fontSize: 75,
     color: 'rgb(241, 63, 63)',
     fontFamily: 'logo',
     textDecorationLine: 'underline',

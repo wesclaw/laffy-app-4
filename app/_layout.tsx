@@ -6,6 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { useColorScheme } from '@/components/useColorScheme';
+import { AuthProvider } from '@/providers/AuthProvider';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -48,12 +49,14 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    
-      <Stack>
+    <AuthProvider>
+       <Stack>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
+    </AuthProvider>
+     
     
   );
 }
