@@ -9,7 +9,6 @@ import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-// 
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -27,8 +26,6 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          // tabBarIcon: () => <Ionicons name="home-outline" size={24} color="black" />
-
           tabBarIcon: ({focused}) => <Ionicons name={!focused ? 'home-outline' : 'home-sharp'} size={24} color="black" />
         }}
       />

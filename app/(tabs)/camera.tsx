@@ -1,47 +1,14 @@
-// import { StyleSheet } from 'react-native';
-// import { Text, View } from '@/components/Themed';
-
-// import { CameraView } from 'expo-camera'
-
-// export default function CameraScreen() {
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.title}>camera</Text>
-//       <CameraView></CameraView>
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     backgroundColor: 'white',
-//     color: 'white'
-//   },
-//   title:{
-//     color: 'black',
-//   }
-// });
-
-
-
-
-
-
-
-
-
-
-
+import React from 'react'
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import { useState } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function App() {
   const [facing, setFacing] = useState<CameraType>('back');
   const [permission, requestPermission] = useCameraPermissions();
+  const [isRecording, setIsRecording] = useState(false)
+  const cameraRef = React.useRef<CameraView>(null)
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -62,13 +29,37 @@ export default function App() {
     setFacing(current => (current === 'back' ? 'front' : 'back'));
   }
 
+  const recordVideo = async () => {
+    if(isRecording) {
+      setIsRecording(false)
+      cameraRef.current?.stopRecording()
+    }else{
+      setIsRecording(true);
+      const video = await cameraRef.current?.recordAsync()
+      console.log(video?.uri)
+    }
+  }
+
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} facing={facing}>
+      <CameraView mode='video' ref={cameraRef} style={styles.camera} facing={facing}>
         <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
+            <Ionicons name="camera-reverse-sharp" size={50} color="white" />
+          </TouchableOpacity> 
+          {isRecording ? (
+            <TouchableOpacity style={styles.button} onPress={recordVideo}>
+            <Ionicons name="pause-circle" size={100} color="red" />
+            </TouchableOpacity> 
+          ) : (
+            <TouchableOpacity style={styles.button} onPress={recordVideo}>
+            <Ionicons name="radio-button-on" size={100} color="red" />
+            </TouchableOpacity> 
+          )}
+          
           <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </TouchableOpacity>
+            <Ionicons name="camera-reverse-sharp" size={50} color="white" />
+          </TouchableOpacity> 
         </View>
       </CameraView>
     </View>
@@ -76,6 +67,7 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -88,14 +80,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonContainer: {
-    flex: 1,
     flexDirection: 'row',
+    position: 'absolute',
+    bottom: 20,
+    left: 0,
+    right: 0,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
     backgroundColor: 'transparent',
-    margin: 64,
   },
   button: {
-    flex: 1,
-    alignSelf: 'flex-end',
     alignItems: 'center',
   },
   text: {
