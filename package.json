@@ -35,7 +35,8 @@
     "react-native-screens": "~4.4.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.13",
-    "expo-constants": "~17.0.3"
+    "expo-constants": "~17.0.3",
+    "expo-camera": "~16.0.10"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
