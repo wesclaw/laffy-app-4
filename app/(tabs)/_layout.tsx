@@ -4,6 +4,7 @@ import { Pressable, View, Text } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+// import { useRouter } from 'expo-router'
 
 // icons
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -12,7 +13,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-
+  // const router = useRouter()
   return (
     <Tabs
       screenOptions={{
@@ -45,6 +46,7 @@ export default function TabLayout() {
              <Ionicons name="add-circle" size={65} color="rgb(241, 63, 63);" />
           </View>
         }}
+        
       />
       <Tabs.Screen
         name="inbox"

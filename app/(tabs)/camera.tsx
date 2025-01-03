@@ -3,12 +3,16 @@ import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import { useState } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { supabase } from '@/utils/supabase'
+import { useAuth } from '@/providers/AuthProvider'
 
 export default function App() {
   const [facing, setFacing] = useState<CameraType>('back');
   const [permission, requestPermission] = useCameraPermissions();
   const [isRecording, setIsRecording] = useState(false)
   const cameraRef = React.useRef<CameraView>(null)
+  const [videoUri, setVideoUri] = useState<string | null>(null)
+  const { user } = useAuth()
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -36,30 +40,60 @@ export default function App() {
     }else{
       setIsRecording(true);
       const video = await cameraRef.current?.recordAsync()
-      console.log(video?.uri)
+      setVideoUri(video?.uri)
     }
   }
 
+  const saveVideo = async () => {
+    const formData = new FormData()
+    const fileName = videoUri?.split('/').pop()
+    formData.append('file', {
+      uri: videoUri,
+      type: `video/${fileName?.split('.').pop()}`,
+      name: fileName,
+    })
+
+
+    const { data, error } = await supabase.storage
+    .from('videos')
+    .upload(fileName, formData, {
+      cacheControl: '3600000000',
+      upsert: false,
+    })
+    if(error) console.error(error)
+    
+    const { error: videoError } = await supabase.from('Video').insert({
+      title: "test title here is is boys",
+      uri: data.path, 
+      user_id: user.id,
+    })
+    if(videoError) console.error(videoError)
+  }
+
   return (
+  
     <View style={styles.container}>
-      <CameraView mode='video' ref={cameraRef} style={styles.camera} facing={facing}>
+      <CameraView mode="video" ref={cameraRef} style={styles.camera} facing={facing}>
         <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <Ionicons name="camera-reverse-sharp" size={50} color="white" />
-          </TouchableOpacity> 
-          {isRecording ? (
-            <TouchableOpacity style={styles.button} onPress={recordVideo}>
-            <Ionicons name="pause-circle" size={100} color="red" />
-            </TouchableOpacity> 
-          ) : (
-            <TouchableOpacity style={styles.button} onPress={recordVideo}>
-            <Ionicons name="radio-button-on" size={100} color="red" />
-            </TouchableOpacity> 
-          )}
-          
           <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
             <Ionicons name="camera-reverse-sharp" size={50} color="white" />
-          </TouchableOpacity> 
+          </TouchableOpacity>
+          {videoUri ? (
+            <TouchableOpacity style={styles.button} onPress={saveVideo}>
+              <Ionicons name="checkmark-circle" size={100} color="green" />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.button} onPress={recordVideo}>
+              <Ionicons
+                name={isRecording ? 'pause-circle' : 'radio-button-on'}
+                size={100}
+                color="red"
+              />
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
+            <Ionicons name="camera-reverse-sharp" size={50} color="white" />
+          </TouchableOpacity>
         </View>
       </CameraView>
     </View>
