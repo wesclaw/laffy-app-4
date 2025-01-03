@@ -2,9 +2,15 @@ import React from 'react';
 import { Link, Tabs } from 'expo-router';
 import { Pressable, View, Text } from 'react-native';
 import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 // import { useRouter } from 'expo-router'
+
+
+// 
+
+import { useNavigation } from '@react-navigation/native';
+
+// 
 
 // icons
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -12,8 +18,11 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
   // const router = useRouter()
+
+  const navigation = useNavigation();
+
+  
   return (
     <Tabs
       screenOptions={{
@@ -42,11 +51,17 @@ export default function TabLayout() {
         options={{
           title: '',
           tabBarIcon: () => 
-          <View style={{position: 'absolute', width: 60}}>
-             <Ionicons name="add-circle" size={65} color="rgb(241, 63, 63);" />
+          <View style={{position: 'absolute', width: 100, right: -45}}>
+             <Ionicons name="add-circle" size={75} color="rgb(241, 63, 63);" />
           </View>
         }}
-        
+        listeners={{
+          tabPress: (e) =>{
+            e.preventDefault()
+            navigation.navigate('camera');
+           
+          }
+        }}
       />
       <Tabs.Screen
         name="inbox"
