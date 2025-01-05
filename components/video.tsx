@@ -1,7 +1,6 @@
-import { StyleSheet, FlatList, Dimensions } from 'react-native';
-import { Text, View } from '@/components/Themed';
+import { StyleSheet, FlatList, Dimensions, View, Text} from 'react-native';
 import { ResizeMode, Video } from 'expo-av';
-import React, { isValidElement } from 'react'
+import React from 'react'
 
 export default function({ video, isViewable }: { video: any, isViewable: boolean }) {
   const videoRef = React.useRef<Video>(null)
@@ -16,7 +15,8 @@ export default function({ video, isViewable }: { video: any, isViewable: boolean
 
   return (
     
-         <Video
+    <View>
+       <Video
          ref={videoRef}
          style={{
           flex: 1, 
@@ -29,6 +29,13 @@ export default function({ video, isViewable }: { video: any, isViewable: boolean
          resizeMode={ResizeMode.COVER}
          isLooping
          />
+
+         <View style={styles.titleContainer}>
+          <Text style={styles.userName}>{video.User.username}</Text>
+          <Text style={styles.titleText}>The man who could not be tamed</Text>
+         </View>
+    </View>
+        
   );
 }
 
@@ -43,5 +50,23 @@ const styles = StyleSheet.create({
   title:{
     color: 'black',
     fontSize: 20
+  },
+  titleContainer:{
+    position: 'absolute',
+    bottom: 40,
+    left: 0,
+    padding: 40
+  },
+  userName:{
+    color: 'white',
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 10
+  },
+  titleText:{
+    color: 'white',
+    fontSize: 17,
+    fontWeight: 'bold',
+    marginBottom: 30
   }
 });
