@@ -1,11 +1,18 @@
 import { StyleSheet, FlatList, Dimensions } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import { ResizeMode, Video } from 'expo-av';
-import React from 'react'
+import React, { isValidElement } from 'react'
 
-
-export default function({ video }: { video: any }) {
+export default function({ video, isViewable }: { video: any, isViewable: boolean }) {
   const videoRef = React.useRef<Video>(null)
+
+  React.useEffect(()=>{
+    if(isViewable){
+      videoRef.current?.playAsync()
+    }else{
+      videoRef.current?.pauseAsync()
+    }
+  },[isViewable])
 
   return (
     
@@ -21,7 +28,6 @@ export default function({ video }: { video: any }) {
          }} 
          resizeMode={ResizeMode.COVER}
          isLooping
-          //  onPlaybackStatusUpdate={status => setStatus(() => status)}
          />
   );
 }

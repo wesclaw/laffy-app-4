@@ -1,15 +1,14 @@
 import { StyleSheet, FlatList, Dimensions } from 'react-native';
 import { View } from '@/components/Themed';
-import { useAuth } from '@/providers/AuthProvider'
 import { supabase } from '@/utils/supabase'
 import React from 'react'
 import VideoPlayer from '@/components/video'
 
 
 export default function() {
-  const { user } = useAuth()
-
   const [videos, setVideos] = React.useState<any[]>([])
+
+  const [ activeIndex, setActiveIndex ] = React.useState<number | null>(null)
 
   React.useEffect(()=>{
     getVideos()
@@ -20,7 +19,6 @@ export default function() {
     .from('Video')
     .select('*, User(username)')
     .order('created_at', {ascending: false})
-    console.log(data)
     getSignedUrls(data)
   }
 
@@ -36,15 +34,18 @@ export default function() {
     })
     setVideos(videoUrls)
   }
+
+
   return (
     <View style={styles.container}>
     <FlatList 
     data={videos} 
     snapToInterval={Dimensions.get('window').height} 
-    onViewableItemsChanged={e=>console.log(e)}
+    onViewableItemsChanged={e=>setActiveIndex(e.viewableItems[0].key)}
+    
     snapToStart 
     decelerationRate="fast" 
-    renderItem={({ item }) => <VideoPlayer video={item} />}
+    renderItem={({ item }) => <VideoPlayer video={item} isViewable={activeIndex===item.id} />}
     />
   </View>
   );
