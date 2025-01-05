@@ -1,16 +1,15 @@
 import { StyleSheet, FlatList, Dimensions } from 'react-native';
-import { Text, View } from '@/components/Themed';
+import { View } from '@/components/Themed';
 import { useAuth } from '@/providers/AuthProvider'
 import { supabase } from '@/utils/supabase'
 import React from 'react'
-import { ResizeMode, Video } from 'expo-av';
+import VideoPlayer from '@/components/video'
 
 
 export default function() {
   const { user } = useAuth()
 
   const [videos, setVideos] = React.useState<any[]>([])
-  const videoRef = React.useRef<Video>(null)
 
   React.useEffect(()=>{
     getVideos()
@@ -39,25 +38,15 @@ export default function() {
   }
   return (
     <View style={styles.container}>
-    <FlatList data={videos} snapToInterval={Dimensions.get('window').height} snapToStart decelerationRate="fast" renderItem={({ item })=>
-           <Video
-           ref={videoRef}
-           style={{
-            flex: 1, 
-            width: Dimensions.get('window').width,
-            height: Dimensions.get('window').height,
-           }}
-           source={{
-             uri: item.signedUrl,
-           }} 
-           resizeMode={ResizeMode.COVER}
-           isLooping
-
-          //  onPlaybackStatusUpdate={status => setStatus(() => status)}
-         />}>
-
-    </FlatList>
-    </View>
+    <FlatList 
+    data={videos} 
+    snapToInterval={Dimensions.get('window').height} 
+    onViewableItemsChanged={e=>console.log(e)}
+    snapToStart 
+    decelerationRate="fast" 
+    renderItem={({ item }) => <VideoPlayer video={item} />}
+    />
+  </View>
   );
 }
 
@@ -74,3 +63,21 @@ const styles = StyleSheet.create({
     fontSize: 20
   }
 });
+
+
+
+   //    <Video
+        //    ref={videoRef}
+        //    style={{
+        //     flex: 1, 
+        //     width: Dimensions.get('window').width,
+        //     height: Dimensions.get('window').height,
+        //    }}
+        //    source={{
+        //      uri: item.signedUrl,
+        //    }} 
+        //    resizeMode={ResizeMode.COVER}
+        //    isLooping
+
+        //   //  onPlaybackStatusUpdate={status => setStatus(() => status)}
+        //  />} 
