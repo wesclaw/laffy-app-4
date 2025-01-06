@@ -3,7 +3,7 @@ import { View } from '@/components/Themed';
 import { supabase } from '@/utils/supabase'
 import React from 'react'
 import VideoPlayer from '@/components/video'
-
+import Header from '@/components/header'
 
 export default function() {
   const [videos, setVideos] = React.useState<any[]>([])
@@ -38,6 +38,7 @@ export default function() {
 
   return (
     <View style={styles.container}>
+      <Header title="Trending" color="white" goBack={false}/>
     <FlatList 
     data={videos} 
     snapToInterval={Dimensions.get('window').height} 
