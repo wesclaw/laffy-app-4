@@ -17,7 +17,7 @@ export default function() {
   const getVideos = async () => {
     const { data, error } = await supabase
     .from('Video')
-    .select('*, User(username)')
+    .select('*, User(*)')
     .order('created_at', {ascending: false})
     getSignedUrls(data)
   }

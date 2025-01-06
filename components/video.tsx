@@ -1,9 +1,14 @@
-import { StyleSheet, FlatList, Dimensions, View, Text} from 'react-native';
+import { StyleSheet, FlatList, Dimensions, View, Text, TouchableOpacity, Share} from 'react-native';
 import { ResizeMode, Video } from 'expo-av';
 import React from 'react'
+import { Ionicons } from '@expo/vector-icons';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { useRouter } from 'expo-router'
 
 export default function({ video, isViewable }: { video: any, isViewable: boolean }) {
   const videoRef = React.useRef<Video>(null)
+  const router = useRouter()
 
   React.useEffect(()=>{
     if(isViewable){
@@ -12,6 +17,13 @@ export default function({ video, isViewable }: { video: any, isViewable: boolean
       videoRef.current?.pauseAsync()
     }
   },[isViewable])
+
+
+  const shareVideo = () => {
+    Share.share({
+      message: `Check out this video! ${video.title}`
+    })
+  }
 
   return (
     
@@ -30,10 +42,32 @@ export default function({ video, isViewable }: { video: any, isViewable: boolean
          isLooping
          />
 
-         <View style={styles.titleContainer}>
-          <Text style={styles.userName}>{video.User.username}</Text>
-          <Text style={styles.titleText}>The man who could not be tamed</Text>
-         </View>
+          <View style={styles.wrapperForBtns}>
+            <View style={styles.iconsAndTextWrapper}>
+              <View>
+                <Text style={styles.userName}>{video.User.username}</Text>
+                <Text style={styles.title}>The man who could not be tamed</Text>
+              </View>
+
+                
+                <View>
+                    <TouchableOpacity style={styles.icon}>
+                      <Ionicons name="person" size={40} color='white' onPress={()=>router.push(`/user?user_id=${video.User.id}`)}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.icon}>
+                    <FontAwesome name="share" size={40} color="white" onPress={shareVideo}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.icon}>
+                      <Ionicons name="chatbubble-ellipses" size={40} color='white' onPress={()=>router.push('/comments')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.icon}>
+                      <FontAwesome5 name="laugh-squint" size={40} color="white" />
+                    </TouchableOpacity>
+                  </View>
+             
+
+            </View>
+          </View>
     </View>
         
   );
@@ -48,25 +82,33 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   title:{
-    color: 'black',
-    fontSize: 20
-  },
-  titleContainer:{
-    position: 'absolute',
-    bottom: 40,
-    left: 0,
-    padding: 40
+    color: 'white',
+    fontSize: 17,
+    fontWeight: 'bold'
   },
   userName:{
     color: 'white',
-    fontSize: 22,
+    fontSize: 21,
     fontWeight: 'bold',
-    marginBottom: 10
+    marginBottom: 5,
   },
-  titleText:{
-    color: 'white',
-    fontSize: 17,
-    fontWeight: 'bold',
-    marginBottom: 30
+  wrapperForBtns:{
+    position: 'absolute',
+    bottom: 80,
+    left: 0,
+    padding: 5,
+    width: '100%'
+  },
+  iconsAndTextWrapper:{
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'flex-end',  
+    padding: 10, 
+  },
+  touchIcons:{
+    flexDirection: 'row', 
+  },
+  icon: {
+    marginTop: 30,
   }
 });
