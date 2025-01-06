@@ -58,7 +58,7 @@ export default function({ video, isViewable }: { video: any, isViewable: boolean
                     <FontAwesome name="share" size={40} color="white" onPress={shareVideo}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.icon}>
-                      <Ionicons name="chatbubble-ellipses" size={40} color='white' onPress={()=>router.push('/comments')} />
+                      <Ionicons name="chatbubble-ellipses" size={40} color='white' onPress={()=>router.push(`/comments?video_id=${video.id}`)} />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.icon}>
                       <FontAwesome5 name="laugh-squint" size={40} color="white" />
