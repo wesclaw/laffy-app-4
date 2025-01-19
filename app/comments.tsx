@@ -1,4 +1,4 @@
-import { Text, TextInput, Touchable, TouchableOpacity, View, FlatList, Image, SafeAreaView, StyleSheet } from 'react-native'
+import { Text, TextInput, Touchable, TouchableOpacity, View, FlatList, Image, SafeAreaView, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard  } from 'react-native'
 import { useAuth } from '@/providers/AuthProvider'
 import { useLocalSearchParams } from 'expo-router'
 import {supabase} from '@/utils/supabase'
@@ -29,31 +29,34 @@ export default function(){
     const { error } = await supabase.from('Comment').insert({
       user_id: user?.id,
       video_id: pathName.video_id,
-      content: "Hello"
+      content: "love this video! so funny"
     })
     if(error) return console.log(error)
     setText('')
+    Keyboard.dismiss()
     getComments()
   }
   
   return(
+    <KeyboardAvoidingView style={{flex: 1}} 
+    behavior={Platform.OS === 'ios' ?  'padding' : 'height'}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <SafeAreaView style={{backgroundColor: 'white', flexDirection: 'column', justifyContent: 'center', padding: 10, flex: 1, alignItems: 'center'}}>
-      <Text style={{fontWeight: 'bold'}}>Comments</Text>
-     <FlatList
+      <Text style={{fontWeight: 'bold', marginTop: 1, fontSize: 20}}>Comments</Text>
+     <FlatList style={styles.commentContainer}
      data={comments}
      renderItem={({ item })=> {
       return(
-        <View style={{flexDirection: 'row', alignItems: 'center', gap: 5}}>
+        <View style={{flexDirection: 'row', alignItems: 'center', gap: 5, marginBottom: 8}}>
           <View>
           <Image source={{uri: 'https://placehold.co/40x40'}}
           style={{backgroundColor: 'black', height: 30, width: 30, borderRadius: 50}}
           />
           </View>
           <View>
+          <Text style={{fontWeight: 800, fontSize: 14}}>{item.User.username}</Text>
           <Text>{item.content}</Text>
-          <Text>{item.User.username}</Text>
           </View>
-          
         </View>
       )
      }}
@@ -72,6 +75,9 @@ export default function(){
      </View>
       
     </SafeAreaView>
+
+    </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   )
 }
 
@@ -82,6 +88,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     width: '100%',
     alignItems: 'center',
+    padding: 5
+  },
+  commentContainer:{
+    width: '100%',
     padding: 5
   },
   textInput: {
