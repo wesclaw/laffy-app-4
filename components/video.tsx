@@ -5,8 +5,11 @@ import { Ionicons } from '@expo/vector-icons';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router'
+import { useAuth } from '../providers/AuthProvider'
+// import { supabase } from '@/utils/supabase';
 
 export default function({ video, isViewable }: { video: any, isViewable: boolean }) {
+  const { user } = useAuth()
   const videoRef = React.useRef<Video>(null)
   const router = useRouter()
 
@@ -23,6 +26,16 @@ export default function({ video, isViewable }: { video: any, isViewable: boolean
     Share.share({
       message: `Check out this video! ${video.title}`
     })
+  }
+
+  const likeVideo = async () => {
+    const { data, error } = await supabase
+    .from('Like')
+    .insert({
+      user_id: user?.id,
+      video_id: video.id
+    })
+    console.log('like')
   }
 
   return (
@@ -60,7 +73,7 @@ export default function({ video, isViewable }: { video: any, isViewable: boolean
                     <TouchableOpacity style={styles.icon}>
                       <Ionicons name="chatbubble-ellipses" size={40} color='white' onPress={()=>router.push(`/comments?video_id=${video.id}`)} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.icon}>
+                    <TouchableOpacity style={styles.icon} onPress={likeVideo}>
                       <FontAwesome5 name="laugh-squint" size={40} color="white" />
                     </TouchableOpacity>
                   </View>
