@@ -6,7 +6,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router'
 import { useAuth } from '../providers/AuthProvider'
-// import { supabase } from '@/utils/supabase';
+import { supabase } from '@/utils/supabase';
 
 export default function({ video, isViewable }: { video: any, isViewable: boolean }) {
   const { user } = useAuth()
@@ -33,7 +33,8 @@ export default function({ video, isViewable }: { video: any, isViewable: boolean
     .from('Like')
     .insert({
       user_id: user?.id,
-      video_id: video.id
+      video_id: video.id,
+
     })
     console.log('like')
   }
