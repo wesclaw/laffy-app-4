@@ -57,7 +57,7 @@ model Like {
   user_id       String   @db.Uuid
   video         Video    @relation(fields: [video_id], references: [id], onDelete: Cascade)
   video_id      String   @db.Uuid
-  video_user_id String?   // Make it optional first
+  video_user_id String?   
 }
 
 model Follower {

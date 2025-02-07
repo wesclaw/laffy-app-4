@@ -29,14 +29,15 @@ export default function({ video, isViewable }: { video: any, isViewable: boolean
   }
 
   const likeVideo = async () => {
-    const { data, error } = await supabase
-    .from('Like')
-    .insert({
-      user_id: user?.id,
-      video_id: video.id,
-
-    })
-    console.log('like')
+    // const { data, error } = await supabase
+    // .from('Like')
+    // .insert({
+    //   user_id: user?.id,
+    //   video_id: video.id,
+    //   video_user_id: video.User.id,
+    // })
+    // console.log('like')
+    console.log(video)
   }
 
   return (
