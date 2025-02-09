@@ -8,10 +8,12 @@ import { useRouter } from 'expo-router'
 import { useAuth } from '../providers/AuthProvider'
 import { supabase } from '@/utils/supabase';
 
+
 export default function({ video, isViewable }: { video: any, isViewable: boolean }) {
   const { user } = useAuth()
   const videoRef = React.useRef<Video>(null)
   const router = useRouter()
+  const [liked, setLiked] = React.useState(false)
 
   React.useEffect(()=>{
     if(isViewable){
@@ -29,16 +31,17 @@ export default function({ video, isViewable }: { video: any, isViewable: boolean
   }
 
   const likeVideo = async () => {
-    // const { data, error } = await supabase
-    // .from('Like')
-    // .insert({
-    //   user_id: user?.id,
-    //   video_id: video.id,
-    //   video_user_id: video.User.id,
-    // })
-    // console.log('like')
-    console.log(video)
+    const { data, error } = await supabase
+    .from('Like')
+    .insert({
+      user_id: user?.id,
+      video_id: video.id,
+      video_user_id: video.User.id,
+    })
+    if(!error) setLiked(true)
   }
+
+  
 
   return (
     
@@ -76,7 +79,8 @@ export default function({ video, isViewable }: { video: any, isViewable: boolean
                       <Ionicons name="chatbubble-ellipses" size={40} color='white' onPress={()=>router.push(`/comments?video_id=${video.id}`)} />
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.icon} onPress={likeVideo}>
-                      <FontAwesome5 name="laugh-squint" size={40} color="white" />
+                      {liked ? <FontAwesome5 name="laugh-squint" size={40} color="rgb(241, 63, 63)" /> : <FontAwesome5 name="laugh-squint" size={40} color="white" />}
+                      
                     </TouchableOpacity>
                   </View>
              

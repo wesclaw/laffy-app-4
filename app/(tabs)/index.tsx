@@ -66,20 +66,3 @@ const styles = StyleSheet.create({
   }
 });
 
-
-
-   //    <Video
-        //    ref={videoRef}
-        //    style={{
-        //     flex: 1, 
-        //     width: Dimensions.get('window').width,
-        //     height: Dimensions.get('window').height,
-        //    }}
-        //    source={{
-        //      uri: item.signedUrl,
-        //    }} 
-        //    resizeMode={ResizeMode.COVER}
-        //    isLooping
-
-        //   //  onPlaybackStatusUpdate={status => setStatus(() => status)}
-        //  />} 
