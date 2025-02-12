@@ -15,11 +15,12 @@ export default function Header({title, color, goBack=false, search=false}: { tit
     </View>
       <Text style={{color: `${color}`, fontSize: 22, fontWeight: 'bold'}}>{title}</Text>
       <View style={{width: 30}}>
-      <TouchableOpacity onPress={()=>router.push('/search')}>
-        <Ionicons name='search' size={30} color={color}/>
-      </TouchableOpacity>
+        {search && (
+          <TouchableOpacity onPress={()=>router.push('/search')}>
+          <Ionicons name='search' size={30} color={color}/>
+          </TouchableOpacity>
+        )}
       </View>
-      
     </View>
   )
 }
