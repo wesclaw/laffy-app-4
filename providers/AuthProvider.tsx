@@ -6,7 +6,9 @@ export const AuthContext = React.createContext({
   user: null,
   signIn: async (email: string, password: string) => {},
   signUp: async (username: string, email: string, password: string) => {},
-  signOut: async () => {}
+  signOut: async () => {},
+  likes: [],
+  getLikes: async (userId: string)=>{},
 })
 
 export const useAuth = () => React.useContext(AuthContext)
@@ -14,6 +16,16 @@ export const useAuth = () => React.useContext(AuthContext)
 export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
   const [user, setUser] = React.useState(null)
   const router = useRouter()
+  const [ likes, setLikes ] = React.useState([])
+
+  const getLikes = async (userId: string)=>{
+    console.log("userID", userId)
+    if(!userId) return
+
+    const { data, error } = await supabase.from('Like').select('*').eq('user_id', userId)
+    setLikes(data)
+    console.log('like', data)
+  }
 
   const getUser = async (id: string) => {
     const { data, error } = await supabase.from('User').select('*').eq('id', id).single()
@@ -70,5 +82,5 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
     }
   }, [])
 
-  return <AuthContext.Provider value={{user, signIn, signUp, signOut}}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{user, signIn, signUp, signOut, likes, getLikes }}>{children}</AuthContext.Provider>
 }

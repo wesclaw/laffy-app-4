@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { Text, Touchable, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { useRouter } from 'expo-router'
 
-export default function Header({title, color, goBack=false}: { title: string, color: string, goBack?: boolean}) {
+export default function Header({title, color, goBack=false, search=false}: { title: string, color: string, goBack?: boolean, search?: boolean,}) {
   const router = useRouter()
   return(
     <View style={styles.container}>
@@ -15,7 +15,7 @@ export default function Header({title, color, goBack=false}: { title: string, co
     </View>
       <Text style={{color: `${color}`, fontSize: 22, fontWeight: 'bold'}}>{title}</Text>
       <View style={{width: 30}}>
-      <TouchableOpacity onPress={()=>console.log('search')}>
+      <TouchableOpacity onPress={()=>router.push('/search')}>
         <Ionicons name='search' size={30} color={color}/>
       </TouchableOpacity>
       </View>
@@ -37,5 +37,4 @@ const styles = StyleSheet.create({
   marginTop: 10,
   padding: 15,
  },
-
 });

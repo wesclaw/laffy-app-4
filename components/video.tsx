@@ -10,10 +10,11 @@ import { supabase } from '@/utils/supabase';
 
 
 export default function({ video, isViewable }: { video: any, isViewable: boolean }) {
-  const { user } = useAuth()
+  const { user, likes, getLikes } = useAuth()
   const videoRef = React.useRef<Video>(null)
   const router = useRouter()
-  const [liked, setLiked] = React.useState(false)
+  // const [liked, setLiked] = React.useState(false)
+  console.log("likes",likes)
 
   React.useEffect(()=>{
     if(isViewable){
@@ -38,8 +39,18 @@ export default function({ video, isViewable }: { video: any, isViewable: boolean
       video_id: video.id,
       video_user_id: video.User.id,
     })
-    if(!error) setLiked(true)
+    if(!error) getLikes(user?.id)
   }
+
+  const unlikeVideo = async () => {
+    const { data, error } = await supabase
+    .from('Like')
+    .delete()
+    .eq('user_id', user?.id)
+    .eq('video_id', video.id)
+    if(!error) getLikes(user?.id)
+  }
+
 
   
 
@@ -78,13 +89,20 @@ export default function({ video, isViewable }: { video: any, isViewable: boolean
                     <TouchableOpacity style={styles.icon}>
                       <Ionicons name="chatbubble-ellipses" size={40} color='white' onPress={()=>router.push(`/comments?video_id=${video.id}`)} />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.icon} onPress={likeVideo}>
-                      {liked ? <FontAwesome5 name="laugh-squint" size={40} color="rgb(241, 63, 63)" /> : <FontAwesome5 name="laugh-squint" size={40} color="white" />}
-                      
-                    </TouchableOpacity>
+
+
+                    
+                      {likes.filter((like: any) => like.video_id === video.id).length > 0 ? (
+                        <TouchableOpacity style={styles.icon} onPress={unlikeVideo}>
+                          <FontAwesome5 name="laugh-squint" size={40} color="rgb(241, 63, 63)" />
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity style={styles.icon} onPress={likeVideo}>
+                          <FontAwesome5 name="laugh-squint" size={40} color="white" />
+                        </TouchableOpacity>
+                      )}
                   </View>
              
-
             </View>
           </View>
     </View>

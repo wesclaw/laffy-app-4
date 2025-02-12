@@ -38,12 +38,11 @@ export default function() {
 
   return (
     <View style={styles.container}>
-      <Header title="Trending" color="white" goBack={false}/>
+      <Header title="For You" color="white" goBack={false} search/>
     <FlatList 
     data={videos} 
     snapToInterval={Dimensions.get('window').height} 
     onViewableItemsChanged={e=>setActiveIndex(e.viewableItems[0].key)}
-    
     snapToStart 
     decelerationRate="fast" 
     renderItem={({ item }) => <VideoPlayer video={item} isViewable={activeIndex===item.id} />}
