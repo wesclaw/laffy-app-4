@@ -16,8 +16,8 @@ model User {
   likes      Like[]
   comments   Comment[]
 
-  followers Follower[] @relation("UserFollowing")
-  following Follower[] @relation("UserFollowers")
+  // followers Follower[] @relation("UserFollowing")
+  // following Follower[] @relation("UserFollowers")
 
   sentChats     Chat[] @relation("SenderChats")
   receivedChats Chat[] @relation("ReceiverChats")
@@ -60,17 +60,26 @@ model Like {
   video_user_id String?   
 }
 
+// model Follower {
+//   id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+//   follower_user_id  String   @db.Uuid
+//   user_id String   @db.Uuid
+//   created_at   DateTime @default(now())
+
+//   // Relations
+//   follower  User @relation("UserFollowing", fields: [follower_id], references: [id])
+//   following User @relation("UserFollowers", fields: [following_id], references: [id])
+
+//   @@unique([follower_id, following_id])  
+// }
+
 model Follower {
-  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  follower_id  String   @db.Uuid
-  following_id String   @db.Uuid
-  created_at   DateTime @default(now())
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  follower_user_id String   @db.Uuid
+  user_id          String   @db.Uuid
+  created_at       DateTime @default(now())
 
-  // Relations
-  follower  User @relation("UserFollowing", fields: [follower_id], references: [id])
-  following User @relation("UserFollowers", fields: [following_id], references: [id])
-
-  @@unique([follower_id, following_id])
+  @@unique([follower_user_id, user_id])  
 }
 
 model Chat {
