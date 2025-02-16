@@ -20,10 +20,9 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
   const [user, setUser] = React.useState(null)
   const router = useRouter()
   const [likes, setLikes] = React.useState([])
-  const [following, setFollowers] = React.useState([])
-  const [followers, setFollowing] = React.useState([])
+  const [following, setFollowing] = React.useState([])
+  const [followers, setFollowers] = React.useState([])
   
-
   const getLikes = async (userId: string)=>{
     if(!userId) return
 
@@ -35,14 +34,16 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
   const getFollowing = async (userId: string)=>{
     if(!userId) return
     const { data, error } = await supabase.from('Follower').select('*').eq('user_id', userId)
-    if(!error) setFollowing(data)
+    if(!error) 
+    setFollowing(data)
     
   }
 
   const getFollowers = async (userId: string)=>{
     if(!userId) return
     const { data, error } = await supabase.from('Follower').select('*').eq('follower_user_id', userId)
-    if(!error) setFollowers(data)
+    if(!error) 
+    setFollowers(data)
   }
 
   const getUser = async (id: string) => {
@@ -58,7 +59,6 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
     })
     if(error) return console.error(error)
     getUser(data.user.id)
-    
   }
 
   const signUp = async (username: string, email: string, password: string) => {
@@ -100,5 +100,5 @@ export const AuthProvider = ({ children }: {children: React.ReactNode}) => {
     }
   }, [])
 
-  return <AuthContext.Provider value={{user, signIn, signUp, signOut, likes, getLikes, following, followers }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{user, signIn, signUp, signOut, likes, getLikes, following, followers, getFollowing, getFollowers, getFollowers }}>{children}</AuthContext.Provider>
 }

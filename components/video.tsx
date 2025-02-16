@@ -1,7 +1,6 @@
 import { StyleSheet, FlatList, Dimensions, View, Text, TouchableOpacity, Share} from 'react-native';
 import { ResizeMode, Video } from 'expo-av';
-import React from 'react'
-// import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from 'expo-router'
@@ -61,7 +60,7 @@ export default function({ video, isViewable }: { video: any, isViewable: boolean
     if(!error) getFollowing(user?.id)
   }
   
-  const unFollowUser = async () => {
+  const unFollowerUser = async () => {
     const { error } = await supabase
     .from('Follower')
     .delete()

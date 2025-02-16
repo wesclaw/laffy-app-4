@@ -15,12 +15,11 @@ model User {
   videos     Video[]
   likes      Like[]
   comments   Comment[]
+  followers Follower[]
+  chats Chat[]
+  
 
-  // followers Follower[] @relation("UserFollowing")
-  // following Follower[] @relation("UserFollowers")
-
-  sentChats     Chat[] @relation("SenderChats")
-  receivedChats Chat[] @relation("ReceiverChats")
+  
 }
 
 model Video {
@@ -39,7 +38,6 @@ model Video {
 
 // Comments on videos
 model Comment {
-  // id         String   @id @default(uuid()) @db.Uuid
   id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   content    String
   created_at DateTime @default(now())
@@ -60,38 +58,25 @@ model Like {
   video_user_id String?   
 }
 
-// model Follower {
-//   id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-//   follower_user_id  String   @db.Uuid
-//   user_id String   @db.Uuid
-//   created_at   DateTime @default(now())
-
-//   // Relations
-//   follower  User @relation("UserFollowing", fields: [follower_id], references: [id])
-//   following User @relation("UserFollowers", fields: [following_id], references: [id])
-
-//   @@unique([follower_id, following_id])  
-// }
-
 model Follower {
   id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   follower_user_id String   @db.Uuid
   user_id          String   @db.Uuid
   created_at       DateTime @default(now())
 
-  @@unique([follower_user_id, user_id])  
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@unique([follower_user_id, user_id])    
 }
 
 model Chat {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  content     String
+  user_id String @db.Uuid
+  user User @relation(fields:[user_id], references: [id], onDelete: Cascade)
+  chat_user_id String @db.Uuid
+  text     String
   created_at  DateTime @default(now())
-  sender_id   String   @db.Uuid
-  receiver_id String   @db.Uuid
-
-  // Relations
-  sender   User @relation("SenderChats", fields: [sender_id], references: [id])
-  receiver User @relation("ReceiverChats", fields: [receiver_id], references: [id])
+  users_key String
 }
 
 //the user 
