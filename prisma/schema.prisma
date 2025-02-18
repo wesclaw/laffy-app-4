@@ -60,8 +60,8 @@ model Like {
 
 model Follower {
   id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  follower_user_id String   @db.Uuid
-  user_id          String   @db.Uuid
+  follower_user_id String    @db.Uuid
+  user_id          String    @db.Uuid
   created_at       DateTime @default(now())
 
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
@@ -79,82 +79,3 @@ model Chat {
   users_key String
 }
 
-//the user 
-
-// model User {
-//   id         Int      @id @default(autoincrement())
-//   username   String   @unique
-//   email      String   @unique
-//   created_at DateTime @default(now())
-//   videos Video[]
-//   likes Like[]
-//   comments Comment[]
-
-//   followers   Follower[] @relation("UserFollowing")  
-//   following   Follower[] @relation("UserFollowers")
-
-//   sentChats   Chat[]     @relation("SenderChats") 
-//   receivedChats Chat[]   @relation("ReceiverChats") 
-// }
-
-// model Video {
-//   id            Int       @id @default(autoincrement())
-//   title         String
-//   description   String?
-//   video_url     String    // URL of the uploaded video
-//   created_at    DateTime  @default(now())
-//   user          User      @relation(fields: [user_id], references: [id])
-//   user_id       Int
-
-//   //relationships
-//   comments      Comment[]
-//   likes         Like[]
-// }
-
-// //comments on videos
-
-// model Comment {
-//   id         Int      @id @default(autoincrement())
-//   content    String
-//   created_at DateTime @default(now())
-//   user       User     @relation(fields: [user_id], references: [id])
-//   user_id    Int
-//   video      Video    @relation(fields: [video_id], references: [id])
-//   video_id   Int
-// }
-
-// //likes on videos 
-
-// model Like {
-//   id         Int      @id @default(autoincrement())
-//   created_at DateTime @default(now())
-//   user       User     @relation(fields: [user_id], references: [id])
-//   user_id    Int
-//   video      Video    @relation(fields: [video_id], references: [id])
-//   video_id   Int
-// }
-
-// model Follower {
-//   id            Int      @id @default(autoincrement()) 
-//   follower_id   Int      
-//   following_id  Int     
-//   created_at    DateTime @default(now()) 
-
-//   // Relations
-//   follower      User     @relation("UserFollowing", fields: [follower_id], references: [id])  
-//   following     User     @relation("UserFollowers", fields: [following_id], references: [id]) 
-
-//   @@unique([follower_id, following_id])  
-// }
-
-// model Chat {
-//   id          Int      @id @default(autoincrement()) 
-//   content     String   
-//   created_at  DateTime @default(now()) 
-//   sender_id   Int     
-//   receiver_id Int      
-
-//   // Relations
-//   sender      User     @relation("SenderChats", fields: [sender_id], references: [id]) 
-//   receiver    User     @relation("ReceiverChats", fields: [receiver_id], references: [id]) 
-// }
